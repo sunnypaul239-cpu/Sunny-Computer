@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sunny Computer CSC Centre</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-blue: #1e40af;
+      --dark-blue: #0f172a;
+      --light-blue: #f3f6ff;
+      --accent: #2563eb;
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --white: #ffffff;
+      --shadow: 0 8px 20px rgba(0,0,0,0.08);
+      --radius: 12px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      background: var(--light-blue);
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+      background-size: cover;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .tagline {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 15px;
+    }
+    
+    .language-selector {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    section {
+      padding: 30px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+    
+    h2 {
+      color: var(--primary-blue);
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    h2 i {
+      color: var(--accent);
+    }
+    
+    .service-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .service-list li {
+      padding: 8px 0;
+      border-bottom: 1px dashed #e5e7eb;
+      display: flex;
+      align-items: center;
+    }
+    
+    .service-list li:before {
+      content: "✓";
+      color: #10b981;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    .chat-box {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 15px;
+      height: 260px;
+      overflow-y: auto;
+      background: #f9fafb;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .chat-message {
+      margin-bottom: 15px;
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 18px;
+      line-height: 1.4;
+    }
+    
+    .user-message {
+      align-self: flex-end;
+      background: var(--primary-blue);
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+    
+    .ai-message {
+      align-self: flex-start;
+      background: #e5e7eb;
+      color: var(--text-dark);
+      border-bottom-left-radius: 5px;
+    }
+    
+    .chat-message strong {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+      opacity: 0.8;
+    }
+    
+    .chat-input {
+      display: flex;
+      margin-top: 10px;
+      gap: 10px;
+    }
+    
+    .chat-input input {
+      flex: 1;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+    
+    .chat-input input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background: var(--primary-blue);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    button:hover {
+      background: var(--accent);
+    }
+    
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .contact-info p {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    iframe {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+    }
+    
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    input, textarea {
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 12px 15px;
+      text-align: left;
+    }
+    
+    th {
+      background: #f9fafb;
+      font-weight: 600;
+      color: var(--primary-blue);
+    }
+    
+    tr:nth-child(even) {
+      background: #f9fafb;
+    }
+    
+    .downloads a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      color: var(--primary-blue);
+      text-decoration: none;
+      border-bottom: 1px solid #e5e7eb;
+      transition: color 0.3s;
+    }
+    
+    .downloads a:hover {
+      color: var(--accent);
+    }
+    
+    .ai-support {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-left: 4px solid var(--accent);
+    }
+    
+    .whatsapp-float {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #25D366;
+      color: white;
+      padding: 16px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .whatsapp-float:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 25px 20px;
+      background: var(--dark-blue);
+      color: #cbd5e1;
+      margin-top: 30px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .cards-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+        padding: 14px 18px;
+        font-size: 0.9rem;
+      }
+      
+      section {
+        padding: 20px 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .chat-input {
+        flex-direction: column;
+      }
+      
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1><i class="fas fa-laptop-house"></i> Sunny Computer CSC Centre</h1>
+      <p class="tagline">All Government & Digital Services Under One Roof</p>
+      <div class="language-selector">
+        <i class="fas fa-globe"></i> Language: English
+      </div>
+    </div>
+  </header>
+  
+  <section>
+    <div class="cards-container">
+      <div class="card">
+        <h2><i class="fas fa-info-circle"></i> About Us</h2>
+        <p>Sunny Computer CSC Centre provides reliable Common Service Centre (CSC) facilities including government services, online applications, digital payments, and customer support. We are committed to making digital services accessible to everyone in our community.</p>
+        <p style="margin-top: 15px;"><strong>Timings:</strong> 9:00 AM - 8:00 PM (Mon-Sat)</p>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-concierge-bell"></i> Our Services</h2>
+        <ul class="service-list">
+          <li>Aadhaar Services (Enrollment, Update, Correction)</li>
+          <li>PAN Card Apply & Correction</li>
+          <li>CSC Registration & VLE Services</li>
+          <li>Birth / Caste / Income Certificate</li>
+          <li>Online Forms & Government Schemes</li>
+          <li>Banking & Insurance Services</li>
+          <li>Passport Application Assistance</li>
+          <li>Utility Bill Payments</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-robot"></i> AI Customer Assistant</h2>
+        <p style="margin-bottom: 15px; color: var(--text-light);">Ask me about our services, charges, or procedures.</p>
+        <div class="chat-box" id="chatBox">
+          <div class="chat-message ai-message">
+            <strong>AI Assistant:</strong> Welcome to Sunny Computer CSC Centre! I can help you with information about Aadhaar, PAN card, certificates, government schemes, service charges, and more. How can I assist you today?
+          </div>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="userInput" placeholder="Type your question here..." />
+          <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 10px;"><i class="fas fa-info-circle"></i> This AI assistant provides general guidance. For specific queries, please contact us directly.</p>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-address-book"></i> Contact Information</h2>
+        <div class="contact-info">
+          <p><i class="fas fa-store"></i> <strong>Centre Name:</strong> Sunny Computer CSC Centre</p>
+          <p><i class="fas fa-phone"></i> <strong>Phone:</strong> +91 9435091694</p>
+          <p><i class="fas fa-mobile-alt"></i> <strong>Mobile:</strong> +91 9876543290</p>
+          <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> Main Road, Your Village / Town Name, District, State</p>
+          <p><i class="fas fa-envelope"></i> <strong>Email:</strong> info@sunnycomputercsc.com</p>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-map-marked-alt"></i> Our Location</h2>
+        <p>Visit us for all CSC services. We're located at the center of town for easy access.</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.098971999682!2d85.00028667523914!3d25.623278977798143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f2a4d4b0c88b7d%3A0x5c01d6b8b9c9b9b9!2sPatna%2C%20Bihar!5e0!3m2!1sen!2sin!4v1710772000000!5m2!1sen!2sin" width="100%" height="250" style="border:0; margin-top: 15px;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-file-signature"></i> Online Enquiry Form</h2>
+        <form id="enquiryForm">
+          <input type="text" placeholder="Your Name" required />
+          <input type="tel" placeholder="Mobile Number" required />
+          <input type="email" placeholder="Email Address" />
+          <textarea placeholder="Service Required" rows="3" required></textarea>
+          <button type="button" onclick="submitForm()"><i class="fas fa-paper-plane"></i> Submit Enquiry</button>
+        </form>
+        <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 10px;">We'll contact you within 24 hours.</p>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-rupee-sign"></i> Service Charges (Approx)</h2>
+        <table>
+          <tr>
+            <th>Service</th>
+            <th>Charge (₹)</th>
+          </tr>
+          <tr>
+            <td>PAN Card Application</td>
+            <td>150</td>
+          </tr>
+          <tr>
+            <td>Aadhaar Update/Correction</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>Birth/Caste Certificate</td>
+            <td>50–200</td>
+          </tr>
+          <tr>
+            <td>Income Certificate</td>
+            <td>100–250</td>
+          </tr>
+          <tr>
+            <td>Passport Assistance</td>
+            <td>300–500</td>
+          </tr>
+          <tr>
+            <td>Bank Account Opening</td>
+            <td>Free</td>
+          </tr>
+        </table>
+        <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 10px;"><i class="fas fa-info-circle"></i> Charges may vary based on document requirements.</p>
+      </div>
+      
+      <div class="card">
+        <h2><i class="fas fa-download"></i> Downloads</h2>
+        <div class="downloads">
+          <a href="#"><i class="fas fa-file-pdf"></i> PAN Card Form (PDF)</a>
+          <a href="#"><i class="fas fa-file-pdf"></i> Aadhaar Update Form (PDF)</a>
+          <a href="#"><i class="fas fa-file-pdf"></i> CSC Services List (PDF)</a>
+          <a href="#"><i class="fas fa-file-word"></i> Common Application Form (DOC)</a>
+        </div>
+      </div>
+      
+      <div class="card ai-support">
+        <h2><i class="fas fa-cogs"></i> AI Support Ready</h2>
+        <p>This website is equipped for real AI integration to provide automatic customer support. Future enhancements will include:</p>
+        <ul class="service-list" style="margin-top: 10px;">
+          <li>Natural language processing for queries</li>
+          <li>Automated form filling assistance</li>
+          <li>Service status tracking</li>
+          <li>Multilingual support</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  <a href="https://wa.me/919435091694" target="_blank" class="whatsapp-float">
+    <i class="fab fa-whatsapp"></i> WhatsApp
+  </a>
+  
+  <footer>
+    <div class="footer-content">
+      <p>© 2026 Sunny Computer CSC Centre | All Government & Digital Services</p>
+      <p style="margin-top: 10px; font-size: 0.9rem;">
+        <i class="fas fa-certificate"></i> Authorized CSC Center | 
+        <i class="fas fa-shield-alt"></i> Secure & Reliable Services
+      </p>
+    </div>
+  </footer>
+  
+  <script>
+    // Predefined AI responses for common queries
+    const aiResponses = {
+      "aadhaar": "For Aadhaar services, we offer enrollment, updates, and corrections. You need to bring original documents for proof of identity and address. The charge is ₹100 for updates. Please visit our centre with the required documents.",
+      "pan": "PAN card application takes 7-15 working days. We need your Aadhaar card, photo, and address proof. The charge is ₹150. You can also apply for PAN correction with us.",
+      "certificate": "We help with Birth, Caste, Income, and Domicile certificates. Charges range from ₹50 to ₹250 depending on the certificate type and urgency. Please bring relevant documents.",
+      "charge": "Our service charges are: PAN Card ₹150, Aadhaar Update ₹100, Certificates ₹50-250. All charges are inclusive of government fees. We provide receipts for all payments.",
+      "timing": "Our centre is open from 9:00 AM to 8:00 PM, Monday to Saturday. We're closed on Sundays and public holidays.",
+      "document": "Generally, you need Aadhaar card, photo, address proof, and any existing documents related to the service. Specific requirements vary by service.",
+      "csc": "CSC (Common Service Centre) is a government initiative to deliver digital services in rural and remote areas. We are an authorized CSC providing various G2C and B2C services.",
+      "hello": "Hello! How can I help you with CSC services today? You can ask about Aadhaar, PAN card, certificates, or any other government service.",
+      "hi": "Hi there! Welcome to Sunny Computer CSC. What service do you need information about?",
+      "thanks": "You're welcome! Feel free to ask if you have more questions. You can also call us at +91 9435091694 for immediate assistance.",
+      "scheme": "We provide information and application assistance for various government schemes like PM-Kisan, Ujjwala, PMAY, and more. Please visit us for details.",
+      "payment": "We accept cash, UPI, and card payments. All payments are recorded with proper receipts. We also help with online bill payments for electricity, water, etc."
+    };
+    
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const chatBox = document.getElementById('chatBox');
+      const userMessage = input.value.trim().toLowerCase();
+      
+      if (!userMessage) return;
+      
+      // Add user message to chat
+      const userMsg = document.createElement('div');
+      userMsg.className = 'chat-message user-message';
+      userMsg.innerHTML = `<strong>You:</strong> ${input.value}`;
+      chatBox.appendChild(userMsg);
+      
+      // Clear input
+      input.value = '';
+      
+      // Generate AI response
+      let aiResponse = "Thank you for your query. For detailed information and assistance, please visit our centre or contact us directly at +91 9435091694.";
+      
+      // Check for keywords in the user message
+      for (const [keyword, response] of Object.entries(aiResponses)) {
+        if (userMessage.includes(keyword)) {
+          aiResponse = response;
+          break;
+        }
+      }
+      
+      // Simulate AI typing delay
+      setTimeout(() => {
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'chat-message ai-message';
+        aiMsg.innerHTML = `<strong>AI Assistant:</strong> ${aiResponse}`;
+        chatBox.appendChild(aiMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 500);
+      
+      // Auto-scroll to bottom
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    
+    // Allow sending message with Enter key
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+    
+    function submitForm() {
+      const form = document.getElementById('enquiryForm');
+      const inputs = form.querySelectorAll('input, textarea');
+      let isValid = true;
+      
+      // Simple validation
+      inputs.forEach(input => {
+        if (input.hasAttribute('required') && !input.value.trim()) {
+          isValid = false;
+          input.style.borderColor = '#ef4444';
+        } else {
+          input.style.borderColor = '#d1d5db';
+        }
+      });
+      
+      if (isValid) {
+        alert('Thank you! Your enquiry has been submitted. We will contact you soon.');
+        form.reset();
+      } else {
+        alert('Please fill all required fields.');
+      }
+    }
+    
+    // Add some sample AI messages on page load
+    window.addEventListener('load', function() {
+      const chatBox = document.getElementById('chatBox');
+      
+      // Add a welcome message after a delay
+      setTimeout(() => {
+        const welcomeMsg = document.createElement('div');
+        welcomeMsg.className = 'chat-message ai-message';
+        welcomeMsg.innerHTML = `<strong>AI Assistant:</strong> You can ask me questions like: "What documents are needed for PAN card?" or "What are your timings?"`;
+        chatBox.appendChild(welcomeMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
